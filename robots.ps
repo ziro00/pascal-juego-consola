@@ -1,0 +1,100 @@
+program explorador;
+CONST
+MaxX = 20;
+MaxY = 20;
+var
+instrucciones: array[1..4] of string;
+mapa: array[1..MaxX, 1..MaxY] of char;
+robotX, robotY: integer;
+mapa2: array[1..MaxX, 1..MaxY] of char;
+I: integer;
+
+procedure CrearMapa;
+var
+x, y: integer;
+
+begin
+for x := 1 to MaxX do
+	for y := 1 to MaxY do
+		mapa[x, y] := 'C'; //lleno el mapa de calles (C)
+
+//pongo las casas
+for x := 2 to MaxX - 1 do
+	for y := 2 to MaxY - 1 do
+	begin
+	if random(200) < 35 then //35% de probabilidad
+	mapa[x, y] := 'H' // casas (H)
+	end;
+robotX := 1;
+robotY := 5;
+end;
+
+procedure EstructuraMapa;
+var
+x, y: integer;
+begin
+
+for x := 1 to MaxX do
+	for y := 1 to MaxY do
+	begin
+	mapa2[x,y] := mapa[x,y]; 
+	end;
+mapa2[robotX,robotY] := 'R';
+
+end;
+
+
+
+
+procedure MostrarMapa;
+var
+x, y: integer;
+begin
+for x := 1 to MaxX do
+	for y := 1 to MaxY do
+	begin
+		write(mapa2[x,y],' ');
+		if (y = MaxY) then
+		writeln();
+	end;
+end;
+
+begin
+
+instrucciones[1] := 'avanzar hacia adelante';
+instrucciones[2] := 'avanzar hacia la derecha';
+instrucciones[3] := 'avanzar hacia la izquierda';
+instrucciones[4] := 'avanzar hacia atras';
+
+CrearMapa;
+EstructuraMapa;
+//iniciado sistema
+
+writeln('Modelo 0021 en linea.');
+writeln('Procediendo a analizar el terreno');
+MostrarMapa;
+writeln('Desplegando posibles acciones en el estado actual ');
+writeln('1: ',instrucciones[1]);
+writeln('2: ',instrucciones[2]);
+writeln('3: ',instrucciones[3]);
+writeln('4: ',instrucciones[4]);
+readln(I);
+
+case I of
+1: begin
+	robotX := robotX + 1;
+	EstructuraMapa;
+	MostrarMapa;
+   end;
+2: begin 
+	robotY := robotY + 1;
+   end;
+3: begin 
+	robotY := robotY - 1;
+   end;
+4: begin
+	robotX := robotX -1;
+   end;
+end;
+
+end.
