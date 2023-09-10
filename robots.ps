@@ -1,4 +1,6 @@
 program explorador;
+uses
+SysUtils;
 CONST
 MaxX = 20;
 MaxY = 20;
@@ -8,6 +10,9 @@ mapa: array[1..MaxX, 1..MaxY] of char;
 robotX, robotY: integer;
 mapa2: array[1..MaxX, 1..MaxY] of char;
 I: integer;
+texto: string;
+texto2: string;
+recorrido: integer;
 
 procedure CrearMapa;
 var
@@ -61,40 +66,67 @@ end;
 
 begin
 
-instrucciones[1] := 'avanzar hacia adelante';
-instrucciones[2] := 'avanzar hacia la derecha';
-instrucciones[3] := 'avanzar hacia la izquierda';
-instrucciones[4] := 'avanzar hacia atras';
 
+instrucciones[1] := 'Modelo 0021 en linea';
+instrucciones[2] := 'Procediendo a analizar el terreno';
+instrucciones[3] := 'Desplegando posibles acciones en el estado actual';
+instrucciones[4] := '1: avanzar hacia adelante';
+instrucciones[5] := '2: avanzar hacia la derecha';
+instrucciones[6] := '3: avanzar hacia la izquierda';
+instrucciones[7] := '4: avanzar hacia atras';
+instrucciones[8] := '0: salir';
+
+I:=1;
 CrearMapa;
 EstructuraMapa;
 //iniciado sistema
 
-writeln('Modelo 0021 en linea.');
-writeln('Procediendo a analizar el terreno');
-MostrarMapa;
-writeln('Desplegando posibles acciones en el estado actual ');
-writeln('1: ',instrucciones[1]);
-writeln('2: ',instrucciones[2]);
-writeln('3: ',instrucciones[3]);
-writeln('4: ',instrucciones[4]);
-readln(I);
+texto:= instrucciones[1]+ sLineBreak +
+	instrucciones[2];
+	
+texto2:=  instrucciones[3] + sLineBreak +
+	  instrucciones[4] + sLineBreak +
+	  instrucciones[5] + sLineBreak +
+	  instrucciones[6] + sLineBreak +
+	  instrucciones[7] + sLineBreak +
+	  instrucciones[8] + sLineBreak;	
+	
 
-case I of
-1: begin
-	robotX := robotX + 1;
-	EstructuraMapa;
+while I<> 0 do
+begin	
+	for recorrido := 1 to Length(texto) do
+	begin
+	write(texto[recorrido]);
+	Sleep(50);
+	end;
+		
+	writeln();
+	
 	MostrarMapa;
-   end;
-2: begin 
-	robotY := robotY + 1;
-   end;
-3: begin 
-	robotY := robotY - 1;
-   end;
-4: begin
-	robotX := robotX -1;
-   end;
+	
+	for recorrido := 1 to Length(texto2) do
+	begin
+	write(texto2[recorrido]);
+	Sleep(50);
+	end;
+	
+	readln(I);
+		
+	case I of
+	1: begin
+		robotX := robotX + 1;
+		EstructuraMapa;
+		
+	   end;
+	2: begin 
+		robotY := robotY + 1;
+	   end;
+	3: begin 
+		robotY := robotY - 1;
+	   end;
+	4: begin
+		robotX := robotX -1;
+	   end;
+	end;
 end;
-
 end.
